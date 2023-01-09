@@ -1,6 +1,4 @@
 ﻿using Bookstore.Application.Commands.BookCommands;
-using Bookstore.Application.Commands.PublisherCommands;
-using Bookstore.Application.Commands.PublisherCommands.Handlers;
 using Bookstore.Application.DTO;
 using Bookstore.Application.Queries.BookQueries;
 using Bookstore.Shared.Abstractions.Commands;
@@ -98,6 +96,4 @@ public class BooksController : BaseController
 		await _commandDispatcher.DispatchAsync(command);
 		return Ok();
 	}
-
 }
-
