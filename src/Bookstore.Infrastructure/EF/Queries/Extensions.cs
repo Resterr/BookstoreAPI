@@ -15,7 +15,7 @@ internal static class Extensions
 		Quantity = model.Quantity.Value,
 		Authors = from i in model.Authors
 				  select i.Author.AsDto(),
-		Publisher = model.Publisher is null ? null : model.Publisher.AsDto(),
+		Publisher = model.Publisher?.AsDto(),
 	};
 
 	public static AuthorDto AsDto(this Author model) => new()
@@ -36,7 +36,7 @@ internal static class Extensions
 		Email = model.Email.Value,
 		UserName = model.UserName.Value,
 		FullName = model.FullName.Value,
-		RoleName = model.UserRole.Name.Value,
+		RoleName = model.UserRole?.Name.Value,
 	};
 }
 
