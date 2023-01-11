@@ -17,6 +17,7 @@ public class Book : AggregateRoot<BookId>
 	public BookQuantity Quantity { get; private set; }
 	public Publisher Publisher { get; private set; }
 	public List<BookAuthor> Authors { get; private set; } = new();
+	public IList<OrderBook> Orders { get; private set; }
 
 	private Book() { }
 

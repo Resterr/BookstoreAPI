@@ -13,6 +13,7 @@ public static class Extensions
 		services.AddSingleton<IAuthorFactory, AuthorFactory>();
 		services.AddSingleton<IPublisherFactory, PublisherFactory>();
 		services.AddSingleton<IUserFactory, UserFactory>();
+		services.AddSingleton<IOrderFactory, OrderFactory>();
 
 		return services;
 	}

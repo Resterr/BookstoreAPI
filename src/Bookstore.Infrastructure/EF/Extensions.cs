@@ -23,7 +23,7 @@ internal static class Extensions
 		services.AddScoped<IAuthorRepository, PostgresAuthorRepository>();
 		services.AddScoped<IPublisherRepository, PostgresPublisherRepository>();
 		services.AddScoped<IUserRepository, PostgresUserRepository>();
-		
+		services.AddScoped<IOrderRepository, PostgresOrderRepository>();
 
 		var options = configuration.GetOptions<PostgresOptions>("Postgres");
 		services.AddDbContext<AppDbContext>(ctx => ctx.UseNpgsql(options.ConnectionString));
