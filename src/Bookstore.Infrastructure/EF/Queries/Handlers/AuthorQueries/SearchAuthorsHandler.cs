@@ -1,10 +1,11 @@
 ﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.AuthorQueries;
 using Bookstore.Shared.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookstore.Infrastructure.EF.Queries.Handlers.AuthorQueries;
-internal sealed class SearchAuthorsHandler : IQueryHandler<SearchAuthors, IEnumerable<AuthorDto>>
+internal sealed class SearchAuthorsHandler : IQueryHandler<SearchAuthors, IPagedResult<AuthorDto>>
 {
 	private readonly AppDbContext _dbContext;
 
@@ -13,20 +14,22 @@ internal sealed class SearchAuthorsHandler : IQueryHandler<SearchAuthors, IEnume
 		_dbContext = dbContext;
 	}
 
-	public async Task<IEnumerable<AuthorDto>> HandleAsync(SearchAuthors query)
+	public async Task<IPagedResult<AuthorDto>> HandleAsync(SearchAuthors query)
 	{
 		var dbQuery = _dbContext.Authors
-			.AsQueryable();
+			.Where(x => Microsoft.EntityFrameworkCore.EF.Functions.ILike(x.FullName, $"%{query.SearchPhrase}%"));
 
-		if (query.SearchPhrase is not null)
-		{
-			dbQuery = dbQuery.Where(x =>
-				Microsoft.EntityFrameworkCore.EF.Functions.ILike(x.FullName, $"%{query.SearchPhrase}%"));
-		}
-
-		return await dbQuery
+		var resultQuery = await dbQuery
+			.Skip(query.PageSize * (query.PageNumber - 1))
+			.Take(query.PageSize)
 			.Select(x => x.AsDto())
 			.AsNoTracking()
 			.ToListAsync();
+
+		var totalItemsCount = dbQuery.Count();
+
+		var result = new PagedResult<AuthorDto>(resultQuery, totalItemsCount, query.PageSize, query.PageNumber);
+
+		return result;
 	}
 }

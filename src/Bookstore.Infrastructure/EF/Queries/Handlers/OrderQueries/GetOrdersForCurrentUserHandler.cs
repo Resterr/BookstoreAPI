@@ -1,4 +1,5 @@
 ﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.OrderQueries;
 using Bookstore.Application.Services;
 using Bookstore.Shared.Abstractions.Queries;
@@ -7,22 +8,22 @@ using Bookstore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookstore.Infrastructure.EF.Queries.Handlers.OrderQueries;
-internal sealed class GetOrdersForCurrentUserHandler : IQueryHandler<GetOrdersForCurrentUser, IEnumerable<OrderDto>>
+internal sealed class GetOrdersForCurrentUserHandler : IQueryHandler<GetOrdersForCurrentUser, IPagedResult<OrderDto>>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IUserContextService _userContext;
 
 	public GetOrdersForCurrentUserHandler(AppDbContext dbContext, IUserContextService userContext)
 	{
-		_dbContext = dbContext; _userContext = userContext;
-		;
+		_dbContext = dbContext;
+		_userContext = userContext;
 	}
 
-	public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrdersForCurrentUser query)
+	public async Task<IPagedResult<OrderDto>> HandleAsync(GetOrdersForCurrentUser query)
 	{
 		var userId = _userContext.GetUserId;
 
-		var user =  await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+		var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
 
 		if (user == null)
 		{
@@ -32,12 +33,19 @@ internal sealed class GetOrdersForCurrentUserHandler : IQueryHandler<GetOrdersFo
 		var dbQuery = _dbContext.Orders
 			.Include(x => x.Books)
 			.ThenInclude(x => x.Book)
-			.Where(x => x.CreatedBy == user)
-			.AsQueryable();
+			.Where(x => x.CreatedBy == user);
 
-		return await dbQuery
+		var resultQuery = await dbQuery
+			.Skip(query.PageSize * (query.PageNumber - 1))
+			.Take(query.PageSize)
 			.Select(x => x.AsDto())
 			.AsNoTracking()
 			.ToListAsync();
+
+		var totalItemsCount = dbQuery.Count();
+
+		var result = new PagedResult<OrderDto>(resultQuery, totalItemsCount, query.PageSize, query.PageNumber);
+
+		return result;
 	}
 }

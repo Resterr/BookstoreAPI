@@ -1,5 +1,6 @@
 ﻿using Bookstore.Application.Commands.OrderCommands;
 using Bookstore.Application.DTO;
+using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.OrderQueries;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
@@ -32,7 +33,7 @@ public class OrdersController : BaseController
 	}
 
 	[HttpGet("currentUser")]
-	public async Task<ActionResult<IEnumerable<OrderDto>>> GetForCurrentUser([FromRoute] GetOrdersForCurrentUser query)
+	public async Task<ActionResult<IPagedResult<OrderDto>>> GetForCurrentUser([FromQuery] GetOrdersForCurrentUser query)
 	{
 		var result = await _queryDispatcher.QueryAsync(query);
 		return OkOrNotFound(result);
@@ -40,7 +41,7 @@ public class OrdersController : BaseController
 
 	[Authorize(Policy = "is-admin")]
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<OrderDto>>> Get([FromQuery] SearchOrders query)
+	public async Task<ActionResult<IPagedResult<OrderDto>>> Get([FromQuery] SearchOrders query)
 	{
 		var result = await _queryDispatcher.QueryAsync(query);
 		return OkOrNotFound(result);

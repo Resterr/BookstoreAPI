@@ -1,5 +1,6 @@
 ﻿using Bookstore.Application.Commands.AuthorCommands;
 using Bookstore.Application.DTO;
+using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.AuthorQueries;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
@@ -33,7 +34,7 @@ public class AuthorsController : BaseController
 
 	[AllowAnonymous]
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<AuthorDto>>> Get([FromQuery] SearchAuthors query)
+	public async Task<ActionResult<IPagedResult<AuthorDto>>> Get([FromQuery] SearchAuthors query)
 	{
 		var result = await _queryDispatcher.QueryAsync(query);
 		return OkOrNotFound(result);
