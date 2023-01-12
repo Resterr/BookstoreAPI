@@ -37,12 +37,18 @@ public class Book : AggregateRoot<BookId>
 	public void UpdateBook(BookName name, BookPrice price, BookCoverType coverType,
 		BookNumberOfPages numberOfPages, BookHeight height, BookWidth width)
 	{
-		Name = name;
-		Price = price;
-		CoverType = coverType;
-		NumberOfPages = numberOfPages;
-		Height = height;
-		Width = width;
+		if (name is not null) 
+			Name = name;
+		if (price is not null) 
+			Price = price;
+		if (coverType is not null)
+            CoverType = coverType;
+		if (numberOfPages is not null)
+            NumberOfPages = numberOfPages;
+		if (height is not null)
+            Height = height;
+		if (width is not null)
+            Width = width;
 
 		AddEvent(new BookUpdated(this));
 	}
