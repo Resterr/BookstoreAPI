@@ -1,8 +1,10 @@
 ﻿using Bookstore.Infrastructure.Auth;
 using Bookstore.Infrastructure.EF;
 using Bookstore.Infrastructure.Exceptions;
+using Bookstore.Infrastructure.Logging;
 using Bookstore.Infrastructure.Security;
 using Bookstore.Infrastructure.Time;
+using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Services;
 using Bookstore.Shared.Queries;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +23,8 @@ public static class Extensions
 		services.AddQueries();
 		services.AddSecurity();
 		services.AddAuth(configuration);
+
+		services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
 
 		return services;
 	}

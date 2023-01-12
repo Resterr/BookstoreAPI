@@ -1,6 +1,8 @@
-﻿using Bookstore.Application.Services;
+﻿using Bookstore.Application.Queries;
+using Bookstore.Application.Services;
 using Bookstore.Domain.Repositories;
 using Bookstore.Infrastructure.EF.Options;
+using Bookstore.Infrastructure.EF.Queries;
 using Bookstore.Infrastructure.EF.Repositories;
 using Bookstore.Infrastructure.EF.Services;
 using Bookstore.Shared.Options;
@@ -23,7 +25,9 @@ internal static class Extensions
 		services.AddScoped<IAuthorRepository, PostgresAuthorRepository>();
 		services.AddScoped<IPublisherRepository, PostgresPublisherRepository>();
 		services.AddScoped<IUserRepository, PostgresUserRepository>();
-		
+		services.AddScoped<IOrderRepository, PostgresOrderRepository>();
+
+		services.AddScoped(typeof(IPagedResult<>), typeof(PagedResult<>));
 
 		var options = configuration.GetOptions<PostgresOptions>("Postgres");
 		services.AddDbContext<AppDbContext>(ctx => ctx.UseNpgsql(options.ConnectionString));

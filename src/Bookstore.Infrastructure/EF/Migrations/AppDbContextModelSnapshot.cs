@@ -81,6 +81,30 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     b.ToTable("Books", "Bookstore");
                 });
 
+            modelBuilder.Entity("Bookstore.Domain.Entities.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("Orders", "Bookstore");
+                });
+
             modelBuilder.Entity("Bookstore.Domain.Entities.Publisher", b =>
                 {
                     b.Property<long>("Id")
@@ -111,6 +135,24 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("BookAuthors", "Bookstore");
+                });
+
+            modelBuilder.Entity("Bookstore.Domain.Entities.Relations.OrderBook", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrderId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("OrderBooks", "Bookstore");
                 });
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Role", b =>
@@ -173,6 +215,15 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     b.Navigation("Publisher");
                 });
 
+            modelBuilder.Entity("Bookstore.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("Bookstore.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.Navigation("CreatedBy");
+                });
+
             modelBuilder.Entity("Bookstore.Domain.Entities.Relations.BookAuthor", b =>
                 {
                     b.HasOne("Bookstore.Domain.Entities.Author", "Author")
@@ -192,6 +243,25 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     b.Navigation("Book");
                 });
 
+            modelBuilder.Entity("Bookstore.Domain.Entities.Relations.OrderBook", b =>
+                {
+                    b.HasOne("Bookstore.Domain.Entities.Book", "Book")
+                        .WithMany("Orders")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bookstore.Domain.Entities.Order", "Order")
+                        .WithMany("Books")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("Bookstore.Domain.Entities.User", b =>
                 {
                     b.HasOne("Bookstore.Domain.Entities.Role", "UserRole")
@@ -209,6 +279,13 @@ namespace Bookstore.Infrastructure.EF.Migrations
             modelBuilder.Entity("Bookstore.Domain.Entities.Book", b =>
                 {
                     b.Navigation("Authors");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Bookstore.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

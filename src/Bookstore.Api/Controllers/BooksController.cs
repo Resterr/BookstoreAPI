@@ -1,7 +1,6 @@
 ﻿using Bookstore.Application.Commands.BookCommands;
-using Bookstore.Application.Commands.PublisherCommands;
-using Bookstore.Application.Commands.PublisherCommands.Handlers;
 using Bookstore.Application.DTO;
+using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.BookQueries;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
@@ -35,7 +34,7 @@ public class BooksController : BaseController
 
 	[AllowAnonymous]
 	[HttpGet]
-    public async Task<ActionResult<IEnumerable<BookDto>>> Get([FromQuery] SearchBooks query)
+    public async Task<ActionResult<IPagedResult<BookDto>>> Get([FromQuery] SearchBooks query)
     {
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
@@ -99,5 +98,11 @@ public class BooksController : BaseController
 		return Ok();
 	}
 
+	[HttpPut("{id:long}/Quantity")]
+	public async Task<IActionResult> Put([FromRoute] long id, [FromBody] UpdateBookQuantity command)
+	{
+		command = command with { Id = id };
+		await _commandDispatcher.DispatchAsync(command);
+		return Ok();
+	}
 }
-
