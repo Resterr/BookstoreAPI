@@ -7,3 +7,9 @@ Bookstore is a simple e-commerce application using clean architecture along with
   <li>Entity Framework Core 7</li>
   <li>PostgreSQL</li>
 </ul>
+
+# Swagger
+![Swagger](https://github.com/Resterr/BookstoreAPI/blob/main/assets/BookstoreSwagger.png?raw=true)
+
+# Database
+![Db-Diagram](https://github.com/Resterr/BookstoreAPI/blob/main/assets/BookstoreDatabase.png?raw=true)
