@@ -97,4 +97,12 @@ public class BooksController : BaseController
 		await _commandDispatcher.DispatchAsync(command);
 		return Ok();
 	}
+
+	[HttpPut("{id:long}/Quantity")]
+	public async Task<IActionResult> Put([FromRoute] long id, [FromBody] UpdateBookQuantity command)
+	{
+		command = command with { Id = id };
+		await _commandDispatcher.DispatchAsync(command);
+		return Ok();
+	}
 }
