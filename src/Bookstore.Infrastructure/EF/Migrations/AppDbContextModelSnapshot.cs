@@ -25,8 +25,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Author", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -42,8 +42,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Book", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CoverType")
                         .IsRequired()
@@ -62,8 +62,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
-                    b.Property<long?>("PublisherId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("PublisherId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -83,11 +83,11 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Order", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
-                    b.Property<long?>("CreatedById")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
@@ -107,8 +107,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Publisher", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -124,11 +124,11 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Relations.BookAuthor", b =>
                 {
-                    b.Property<long>("BookId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("AuthorId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("BookId", "AuthorId");
 
@@ -139,11 +139,11 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Relations.OrderBook", b =>
                 {
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("BookId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -157,8 +157,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.Role", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -171,8 +171,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entities.User", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
@@ -193,8 +193,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserRoleId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("UserRoleId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");

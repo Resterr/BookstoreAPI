@@ -4,10 +4,10 @@ using Bookstore.Shared.Services;
 namespace Bookstore.Domain.ValueObjects.RoleValueObjects;
 public record RoleId
 {
-	public int Value { get; }
-	public RoleId(int value)
+	public Guid Value { get; }
+	public RoleId(Guid value)
 	{
-		if (value <= 0)
+		if (value == Guid.Empty)
 		{
 			throw new InvalidIdException(this.GetNameOfObject(), value.GetValueOrNull());
 		}
@@ -15,9 +15,9 @@ public record RoleId
 		Value = value;
 	}
 
-	public static implicit operator int(RoleId date)
+	public static implicit operator Guid(RoleId date)
 		=> date.Value;
 
-	public static implicit operator RoleId(int value)
+	public static implicit operator RoleId(Guid value)
 		=> new(value);
 }

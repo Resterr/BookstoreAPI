@@ -1,4 +1,4 @@
 ﻿using Bookstore.Shared.Abstractions.Commands;
 
 namespace Bookstore.Application.Commands.BookCommands;
-public record RemoveBook(long Id) : ICommand;
+public record RemoveBook(Guid Id) : ICommand;

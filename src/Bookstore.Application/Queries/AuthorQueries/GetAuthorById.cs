@@ -4,5 +4,5 @@ using Bookstore.Shared.Abstractions.Queries;
 namespace Bookstore.Application.Queries.AuthorQueries;
 public class GetAuthorById : IQuery<AuthorDto>
 {
-	public long Id { get; set; }
+	public Guid Id { get; set; }
 }

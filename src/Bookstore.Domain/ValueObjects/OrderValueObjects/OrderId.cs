@@ -4,10 +4,10 @@ using Bookstore.Shared.Services;
 namespace Bookstore.Domain.ValueObjects.OrderValueObjects;
 public record OrderId
 {
-	public long Value { get; }
-	public OrderId(long value)
+	public Guid Value { get; }
+	public OrderId(Guid value)
 	{
-		if (value <= 0)
+		if (value == Guid.Empty)
 		{
 			throw new InvalidIdException(this.GetNameOfObject(), value.GetValueOrNull());
 		}
@@ -15,9 +15,9 @@ public record OrderId
 		Value = value;
 	}
 
-	public static implicit operator long(OrderId date)
+	public static implicit operator Guid(OrderId date)
 		=> date.Value;
 
-	public static implicit operator OrderId(long value)
+	public static implicit operator OrderId(Guid value)
 		=> new(value);
 }

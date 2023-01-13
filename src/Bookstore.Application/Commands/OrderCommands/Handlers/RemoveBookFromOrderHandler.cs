@@ -24,7 +24,7 @@ internal sealed class RemoveBookFromOrderHandler : ICommandHandler<RemoveBookFro
 			throw new NotFoundException(this.GetNameOfObject(), command.OrderId);
 		}
 
-		var book = order.Books.SingleOrDefault(x => x.BookId == command.BookId).Book;
+		var book = order.Books.SingleOrDefault(x => x.BookId.Value == command.BookId).Book;
 
 		if (book == null)
 		{

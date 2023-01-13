@@ -14,5 +14,5 @@ internal sealed class UserContextService : IUserContextService
 
 	public ClaimsPrincipal User => _httpContextAccessor.HttpContext?.User;
 
-	public long? GetUserId => User is null ? null : long.Parse(User.Identity.Name);
+	public Guid? GetUserId => User is null ? null : Guid.Parse(User.Identity.Name);
 }

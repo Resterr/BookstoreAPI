@@ -1,4 +1,4 @@
 ﻿using Bookstore.Shared.Abstractions.Commands;
 
 namespace Bookstore.Application.Commands.AuthorCommands;
-public record EditAuthor(long Id, string FullName) : ICommand;
+public record EditAuthor(Guid Id, string FullName) : ICommand;
