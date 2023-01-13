@@ -4,7 +4,6 @@ using Bookstore.Application.Queries;
 using Bookstore.Application.Queries.PublisherQueries;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
-using Bookstore.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +14,15 @@ public class PublishersController : BaseController
 {
 	private readonly ICommandDispatcher _commandDispatcher;
 	private readonly IQueryDispatcher _queryDispatcher;
-	private readonly IIdGeneratorService _idGenerator;
 
-	public PublishersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdGeneratorService idGenerator)
+	public PublishersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
 	{
 		_commandDispatcher = commandDispatcher;
 		_queryDispatcher = queryDispatcher;
-		_idGenerator = idGenerator;
 	}
 
 	[AllowAnonymous]
-	[HttpGet("{id:long}")]
+	[HttpGet("{id:Guid}")]
 	public async Task<ActionResult<PublisherDto>> Get([FromRoute] GetPublisherById query)
 	{
 		var result = await _queryDispatcher.QueryAsync(query);
@@ -43,20 +40,20 @@ public class PublishersController : BaseController
 	[HttpPost]
 	public async Task<IActionResult> Post([FromBody] CreatePublisher command)
 	{
-		command = command with { Id = _idGenerator.Generate() };
+		command = command with { Id = Guid.NewGuid() };
 		await _commandDispatcher.DispatchAsync(command);
 		return CreatedAtAction(nameof(Get), new { id = command.Id }, null);
 	}
 
-	[HttpPut("{id:long}")]
-	public async Task<IActionResult> Put([FromRoute] long id, [FromBody] EditPublisher command)
+	[HttpPut("{id:Guid}")]
+	public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] EditPublisher command)
 	{
 		command = command with { Id = id };
 		await _commandDispatcher.DispatchAsync(command);
 		return Ok();
 	}
 
-	[HttpDelete("{id:long}")]
+	[HttpDelete("{id:Guid}")]
 	public async Task<IActionResult> Delete([FromRoute] RemovePublisher command)
 	{
 		await _commandDispatcher.DispatchAsync(command);

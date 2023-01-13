@@ -1,6 +1,5 @@
 ﻿using Bookstore.Application.Security;
 using Bookstore.Domain.Entities;
-using Bookstore.Shared.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,14 +12,12 @@ internal sealed class AppInitializer : IHostedService
 	private readonly IServiceProvider _serviceProvider;
 	private readonly IConfiguration _configuration;
 	private readonly IPasswordManager _passwordManager;
-	private readonly IIdGeneratorService _idGenerator;
 
-	public AppInitializer(IServiceProvider serviceProvider, IConfiguration configuration, IPasswordManager passwordManager, IIdGeneratorService idGenerator)
+	public AppInitializer(IServiceProvider serviceProvider, IConfiguration configuration, IPasswordManager passwordManager)
 	{
 		_serviceProvider = serviceProvider;
 		_configuration = configuration;
 		_passwordManager = passwordManager;
-		_idGenerator = idGenerator;
 	}
 
 	public async Task StartAsync(CancellationToken cancellationToken)
@@ -33,9 +30,9 @@ internal sealed class AppInitializer : IHostedService
 		{
 			var roles = new List<Role>
 			{
-				new Role(1, "SuperAdmin"),
-				new Role(2, "Admin"),
-				new Role(3, "User"),
+				new Role(Guid.NewGuid(), "SuperAdmin"),
+				new Role(Guid.NewGuid(), "Admin"),
+				new Role(Guid.NewGuid(), "User"),
 			};
 
 			await dbContext.Roles.AddRangeAsync(roles, cancellationToken);
@@ -46,10 +43,10 @@ internal sealed class AppInitializer : IHostedService
 		{
 			var superAdminEmail = _configuration.GetSection("SuperAdminAccount").GetValue<string>("Email");
 			var superAdminPassword = _configuration.GetSection("SuperAdminAccount").GetValue<string>("Password");
-			var superAdminRole = await dbContext.Roles.SingleAsync(x => x.Id == 1);
+			var superAdminRole = await dbContext.Roles.SingleAsync(x => x.Name == "SuperAdmin", cancellationToken);
 			var securedPassword = _passwordManager.Secure(superAdminPassword);
 
-			var superAdmin = new User(_idGenerator.Generate(), superAdminEmail, securedPassword, "superadmin", "superadmin", DateTime.UtcNow, superAdminRole);
+			var superAdmin = new User(Guid.NewGuid(), superAdminEmail, securedPassword, "superadmin", "superadmin", DateTime.UtcNow, superAdminRole);
 
 			await dbContext.Users.AddAsync(superAdmin, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken); ;

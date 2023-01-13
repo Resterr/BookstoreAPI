@@ -23,7 +23,7 @@ internal sealed class GetOrdersForCurrentUserHandler : IQueryHandler<GetOrdersFo
 	{
 		var userId = _userContext.GetUserId;
 
-		var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+		var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id.Value == userId);
 
 		if (user == null)
 		{

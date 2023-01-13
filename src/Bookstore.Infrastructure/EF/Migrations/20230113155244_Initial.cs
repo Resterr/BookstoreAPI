@@ -19,7 +19,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -33,7 +33,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -47,7 +47,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +60,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     CoverType = table.Column<string>(type: "text", nullable: false),
@@ -68,7 +68,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                     Height = table.Column<double>(type: "double precision", nullable: false),
                     Width = table.Column<double>(type: "double precision", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    PublisherId = table.Column<long>(type: "bigint", nullable: true),
+                    PublisherId = table.Column<Guid>(type: "uuid", nullable: true),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -87,13 +87,13 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UserRoleId = table.Column<int>(type: "integer", nullable: true),
+                    UserRoleId = table.Column<Guid>(type: "uuid", nullable: true),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -112,8 +112,8 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 columns: table => new
                 {
-                    BookId = table.Column<long>(type: "bigint", nullable: false),
-                    AuthorId = table.Column<long>(type: "bigint", nullable: false)
+                    BookId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,6 +134,56 @@ namespace Bookstore.Infrastructure.EF.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                schema: "Bookstore",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderStatus = table.Column<int>(type: "integer", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_CreatedById",
+                        column: x => x.CreatedById,
+                        principalSchema: "Bookstore",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderBooks",
+                schema: "Bookstore",
+                columns: table => new
+                {
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BookId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderBooks", x => new { x.OrderId, x.BookId });
+                    table.ForeignKey(
+                        name: "FK_OrderBooks_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "Bookstore",
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderBooks_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalSchema: "Bookstore",
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BookAuthors_AuthorId",
                 schema: "Bookstore",
@@ -145,6 +195,18 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore",
                 table: "Books",
                 column: "PublisherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderBooks_BookId",
+                schema: "Bookstore",
+                table: "OrderBooks",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_CreatedById",
+                schema: "Bookstore",
+                table: "Orders",
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserRoleId",
@@ -161,7 +223,7 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore");
 
             migrationBuilder.DropTable(
-                name: "Users",
+                name: "OrderBooks",
                 schema: "Bookstore");
 
             migrationBuilder.DropTable(
@@ -173,11 +235,19 @@ namespace Bookstore.Infrastructure.EF.Migrations
                 schema: "Bookstore");
 
             migrationBuilder.DropTable(
-                name: "Roles",
+                name: "Orders",
                 schema: "Bookstore");
 
             migrationBuilder.DropTable(
                 name: "Publishers",
+                schema: "Bookstore");
+
+            migrationBuilder.DropTable(
+                name: "Users",
+                schema: "Bookstore");
+
+            migrationBuilder.DropTable(
+                name: "Roles",
                 schema: "Bookstore");
         }
     }

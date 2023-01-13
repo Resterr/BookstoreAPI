@@ -25,7 +25,7 @@ internal sealed class ChangeBookQuantityHandler : ICommandHandler<ChangeBookQuan
 			throw new NotFoundException(this.GetNameOfObject(), command.OrderId);
 		}
 
-		var orderBook = order.Books.SingleOrDefault(x => x.BookId == command.BookId);
+		var orderBook = order.Books.SingleOrDefault(x => x.BookId.Value == command.BookId);
 
 		if (orderBook == null)
 		{

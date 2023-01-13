@@ -2,4 +2,4 @@
 using Bookstore.Shared.Consts;
 
 namespace Bookstore.Application.Commands.OrderCommands;
-public record ChangeStatus(long Id, OrderStatus orderStatus) : ICommand;
+public record ChangeStatus(Guid Id, OrderStatus orderStatus) : ICommand;

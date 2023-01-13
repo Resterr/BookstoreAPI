@@ -4,5 +4,5 @@ namespace Bookstore.Application.Services;
 public interface IUserContextService
 {
 	ClaimsPrincipal User { get; }
-	long? GetUserId { get;}
+	Guid? GetUserId { get;}
 }
