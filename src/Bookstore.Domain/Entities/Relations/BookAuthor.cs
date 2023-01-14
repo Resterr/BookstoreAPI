@@ -15,5 +15,7 @@ public class BookAuthor
 	{
 		Book = book;
 		Author = author;
+		BookId = book.Id;
+		AuthorId = author.Id;
 	}
 }
