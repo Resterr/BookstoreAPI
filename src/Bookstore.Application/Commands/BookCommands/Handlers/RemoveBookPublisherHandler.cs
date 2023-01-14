@@ -24,14 +24,7 @@ internal sealed class RemoveBookPublisherHandler : ICommandHandler<RemoveBookPub
 			throw new NotFoundException(this.GetNameOfObject(), command.BookId);
 		}
 
-		var publisher = await _publisherRepository.GetAsync(command.PublisherId);
-
-		if (publisher == null)
-		{
-			throw new NotFoundException(this.GetNameOfObject(), command.PublisherId);
-		}
-
-		book.RemovePublisher(publisher);
+		book.RemovePublisher();
 
 		await _bookRepository.UpdateAsync(book);
 	}

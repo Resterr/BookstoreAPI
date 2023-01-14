@@ -96,12 +96,17 @@ public class Book : AggregateRoot<BookId>
 
 	public void ChangePublisher(Publisher publisher)
 	{
+		if (Publisher == publisher)
+		{
+			throw new PublisherAlreadyExistsException(Name);
+		}
+
 		Publisher = publisher;
 
 		AddEvent(new PublisherChanged(this, publisher));
 	}
 
-	public void RemovePublisher(Publisher publisher)
+	public void RemovePublisher()
 	{
 		if (Publisher is null)
 		{
@@ -110,7 +115,7 @@ public class Book : AggregateRoot<BookId>
 
 		Publisher = null;
 
-		AddEvent(new PublisherRemoved(this, publisher));
+		AddEvent(new PublisherRemoved(this));
 	}
 
 	private BookAuthor GetAuthor(Author author)

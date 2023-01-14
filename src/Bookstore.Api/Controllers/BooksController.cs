@@ -88,7 +88,7 @@ public class BooksController : BaseController
 		return Ok();
 	}
 
-	[HttpPut("{bookId:Guid}/Publisher/Remove/{publisherId:Guid}")]
+	[HttpPut("{bookId:Guid}/Publisher/Remove")]
 	public async Task<IActionResult> Put([FromRoute] RemoveBookPublisher command)
 	{
 		await _commandDispatcher.DispatchAsync(command);
