@@ -34,8 +34,8 @@ public class Book : AggregateRoot<BookId>
 		Quantity = quantity;
 	}
 
-	public void UpdateBook(BookName name, BookPrice price, BookCoverType coverType,
-		BookNumberOfPages numberOfPages, BookHeight height, BookWidth width)
+	public void UpdateBook(string name, double? price, string coverType,
+		int? numberOfPages, double? height, double? width)
 	{
 		if (name is not null) 
 			Name = name;
