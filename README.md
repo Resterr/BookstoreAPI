@@ -1,5 +1,5 @@
 # About project
-Bookstore is a simple e-commerce application using clean architecture along with CQRS. It enables authentication and authorization of users, adding and editing books, authors and publishers. Users can place orders for books and search for items they are interested in.
+Bookstore is a simple e-commerce application. It enables authentication and authorization of users, adding and editing books, authors and publishers. Users can place orders for books and search for items they are interested in. In my project, I am using clean architecture with CQRS.
 # Stack
 <ul>
   <li>C# 11</li>
