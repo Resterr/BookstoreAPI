@@ -16,6 +16,8 @@ public class OrderBook
 	{
 		Order = order;
 		Book = book;
+		OrderId = order.Id;
+		BookId = book.Id;		
 		Quantity = quantity;
 	}
 }
