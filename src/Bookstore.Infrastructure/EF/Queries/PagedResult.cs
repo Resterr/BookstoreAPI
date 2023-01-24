@@ -1,4 +1,4 @@
-﻿using Bookstore.Application.Queries;
+﻿using Bookstore.Shared.Abstractions.Queries;
 
 namespace Bookstore.Infrastructure.EF.Queries;
 internal class PagedResult<T> : IPagedResult<T> where T : class

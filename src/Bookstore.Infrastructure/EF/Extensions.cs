@@ -1,10 +1,10 @@
-﻿using Bookstore.Application.Queries;
-using Bookstore.Application.Services;
+﻿using Bookstore.Application.Services;
 using Bookstore.Domain.Repositories;
 using Bookstore.Infrastructure.EF.Options;
 using Bookstore.Infrastructure.EF.Queries;
 using Bookstore.Infrastructure.EF.Repositories;
 using Bookstore.Infrastructure.EF.Services;
+using Bookstore.Shared.Abstractions.Queries;
 using Bookstore.Shared.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
