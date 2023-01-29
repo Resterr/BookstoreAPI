@@ -1,5 +1,6 @@
 ﻿using Bookstore.Domain.Repositories;
 using Bookstore.Shared.Abstractions.Commands;
+using Bookstore.Shared.Consts;
 using Bookstore.Shared.Exceptions;
 using Bookstore.Shared.Services;
 
@@ -22,7 +23,25 @@ public class ChangeStatusHandler : ICommandHandler<ChangeStatus>
 			throw new NotFoundException(this.GetNameOfObject(), command.Id);
 		}
 
-		order.StatusChange(command.orderStatus);
+		OrderStatus orderStatus = order.OrderStatus;
+
+		switch(command.StatusName)
+		{
+			case "Pending" : 
+				orderStatus = OrderStatus.Pending;
+				break;
+			case "Accepted":
+				orderStatus = OrderStatus.Accepted;
+				break;
+			case "Canceled":
+				orderStatus = OrderStatus.Canceled;
+				break;
+			case "Returned":
+				orderStatus = OrderStatus.Returned;
+				break;
+		}
+
+		order.StatusChange(orderStatus);
 
 		await _orderRepository.UpdateAsync(order);
 	}

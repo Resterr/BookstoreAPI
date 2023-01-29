@@ -59,7 +59,7 @@ public class OrdersController : BaseController
 	}
 
 	[Authorize(Policy = "is-admin")]
-	[HttpPut("{orderId:Guid}/change/status")]
+	[HttpPut("{orderId:Guid}/status")]
 	public async Task<IActionResult> Put([FromRoute] Guid orderId, ChangeStatus command)
 	{
 		command = command with { Id = orderId };

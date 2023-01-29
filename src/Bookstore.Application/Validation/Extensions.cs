@@ -1,5 +1,6 @@
 ﻿using Bookstore.Application.Functions.Authors.Queries.SearchAuthors;
 using Bookstore.Application.Functions.Books.Queries.SearchBooks;
+using Bookstore.Application.Functions.Orders.Commands.ChangeStatus;
 using Bookstore.Application.Functions.Orders.Queries.GetOrdersForCurrentUser;
 using Bookstore.Application.Functions.Orders.Queries.SearchOrders;
 using Bookstore.Application.Functions.Publishers.Queries.SearchPublishers;
@@ -13,6 +14,8 @@ internal static class Extensions
 	public static IServiceCollection AddValidators(this IServiceCollection services)
 	{
 		services.AddFluentValidationAutoValidation();
+
+		services.AddScoped<IValidator<ChangeStatus>, ChangeStatusValidator>();
 
 		services.AddScoped<IValidator<SearchBooks>, SearchBooksValidator>();
 		services.AddScoped<IValidator<SearchAuthors>, SearchAuthorsValidator>();
