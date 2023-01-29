@@ -1,7 +1,15 @@
-﻿using Bookstore.Application.Commands.BookCommands;
-using Bookstore.Application.DTO;
-using Bookstore.Application.Queries;
-using Bookstore.Application.Queries.BookQueries;
+﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Functions.Books.Commands.AddBookAuthor;
+using Bookstore.Application.Functions.Books.Commands.AddBookPublisher;
+using Bookstore.Application.Functions.Books.Commands.ChangeBookPublisher;
+using Bookstore.Application.Functions.Books.Commands.CreateBook;
+using Bookstore.Application.Functions.Books.Commands.EditBook;
+using Bookstore.Application.Functions.Books.Commands.RemoveBook;
+using Bookstore.Application.Functions.Books.Commands.RemoveBookAuthor;
+using Bookstore.Application.Functions.Books.Commands.RemoveBookPublisher;
+using Bookstore.Application.Functions.Books.Commands.UpdateBookQuantity;
+using Bookstore.Application.Functions.Books.Queries.GetBookById;
+using Bookstore.Application.Functions.Books.Queries.SearchBooks;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -88,7 +96,7 @@ public class BooksController : BaseController
 		return Ok();
 	}
 
-	[HttpPut("{bookId:Guid}/Publisher/Remove/{publisherId:Guid}")]
+	[HttpPut("{bookId:Guid}/Publisher/Remove")]
 	public async Task<IActionResult> Put([FromRoute] RemoveBookPublisher command)
 	{
 		await _commandDispatcher.DispatchAsync(command);

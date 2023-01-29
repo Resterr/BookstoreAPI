@@ -5,6 +5,8 @@ using Bookstore.Domain.ValueObjects.BookValueObjects;
 using Bookstore.Domain.ValueObjects.OrderValueObjects;
 using Bookstore.Shared.Abstractions.Domain;
 using Bookstore.Shared.Consts;
+using Bookstore.Shared.Exceptions.DomainExceptions;
+using Bookstore.Shared.Services;
 
 namespace Bookstore.Domain.Entities;
 public class Order : AggregateRoot<OrderId>
@@ -56,15 +58,20 @@ public class Order : AggregateRoot<OrderId>
 
 	public void RemoveBook(Book book)
 	{
-		var bookToChange = GetBook(book);
+		var bookToRemove = GetBook(book);
 
-		Books.Remove(bookToChange);
+		Books.Remove(bookToRemove);
 
 		AddEvent(new BookRemoved(this, book));
 	}
 
 	public void StatusChange(OrderStatus orderStatus)
 	{
+		if(!Enum.IsDefined(typeof(OrderStatus), orderStatus))
+		{
+			throw new InvalidValueException(OrderStatus.GetNameOfObject(), orderStatus.GetValueOrNull());
+		}
+
 		OrderStatus = orderStatus;
 
 		AddEvent(new StatusChanged(this, orderStatus));

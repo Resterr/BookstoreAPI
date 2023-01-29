@@ -18,6 +18,7 @@ internal sealed class PostgresBookRepository : IBookRepository
 		return _dbContext.Books
 			.Include(x => x.Authors)
 			.ThenInclude(x => x.Author)
+			.Include(x => x.Publisher)
 			.SingleOrDefaultAsync(x => x.Id == id);
 	}
 

@@ -1,7 +1,9 @@
-﻿using Bookstore.Application.Commands.AuthorCommands;
-using Bookstore.Application.DTO;
-using Bookstore.Application.Queries;
-using Bookstore.Application.Queries.AuthorQueries;
+﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Functions.Authors.Commands.CreateAuthor;
+using Bookstore.Application.Functions.Authors.Commands.EditAuthor;
+using Bookstore.Application.Functions.Authors.Commands.RemoveAuthor;
+using Bookstore.Application.Functions.Authors.Queries.GetAuthorById;
+using Bookstore.Application.Functions.Authors.Queries.SearchAuthors;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
 using Microsoft.AspNetCore.Authorization;

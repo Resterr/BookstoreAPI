@@ -1,7 +1,13 @@
-﻿using Bookstore.Application.Commands.OrderCommands;
-using Bookstore.Application.DTO;
-using Bookstore.Application.Queries;
-using Bookstore.Application.Queries.OrderQueries;
+﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Functions.Orders.Commands.AddBookToOrder;
+using Bookstore.Application.Functions.Orders.Commands.ChangeBookQuantity;
+using Bookstore.Application.Functions.Orders.Commands.ChangeStatus;
+using Bookstore.Application.Functions.Orders.Commands.CreateOrder;
+using Bookstore.Application.Functions.Orders.Commands.RemoveBookFromOrder;
+using Bookstore.Application.Functions.Orders.Commands.RemoveOrderHandler;
+using Bookstore.Application.Functions.Orders.Queries.GetOrderById;
+using Bookstore.Application.Functions.Orders.Queries.GetOrdersForCurrentUser;
+using Bookstore.Application.Functions.Orders.Queries.SearchOrders;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -53,7 +59,7 @@ public class OrdersController : BaseController
 	}
 
 	[Authorize(Policy = "is-admin")]
-	[HttpPut("{orderId:Guid}/change/status")]
+	[HttpPut("{orderId:Guid}/status")]
 	public async Task<IActionResult> Put([FromRoute] Guid orderId, ChangeStatus command)
 	{
 		command = command with { Id = orderId };

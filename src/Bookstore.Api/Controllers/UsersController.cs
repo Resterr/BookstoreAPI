@@ -1,6 +1,10 @@
-﻿using Bookstore.Application.Commands.UserCommands;
-using Bookstore.Application.DTO;
-using Bookstore.Application.Queries.UserQueries;
+﻿using Bookstore.Application.DTO;
+using Bookstore.Application.Functions.Users.Commands.GrantAdminRole;
+using Bookstore.Application.Functions.Users.Commands.RemoveAdminRole;
+using Bookstore.Application.Functions.Users.Commands.UserLogin;
+using Bookstore.Application.Functions.Users.Commands.UserPasswordChange;
+using Bookstore.Application.Functions.Users.Commands.UserRegister;
+using Bookstore.Application.Functions.Users.Queries.GetUserById;
 using Bookstore.Application.Security;
 using Bookstore.Shared.Abstractions.Commands;
 using Bookstore.Shared.Abstractions.Queries;
