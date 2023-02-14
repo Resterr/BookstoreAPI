@@ -22,8 +22,11 @@ Bookstore is a e-commerce application that provides users with a seamless experi
 	<li>FluentValidation</li>
 	<li>Swagger</li>
 	<li>JwtBearer</li>
+	<li>FluentEmail</li>
+	<li>RazorLight</li>
+	<li>IronPdf</li>
 	<li>xUnit</li>
-  <li>FluentAssertions</li>
+  	<li>FluentAssertions</li>
 </ul>
 
 # Swagger
