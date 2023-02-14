@@ -3,7 +3,6 @@ using Bookstore.Domain.Events.OrderEvents;
 using Bookstore.Domain.Factories;
 using Bookstore.Domain.Factories.Abstractions;
 using Bookstore.Domain.ValueObjects.BookValueObjects;
-using Bookstore.Shared.Consts;
 using FluentAssertions;
 
 namespace Bookstore.UnitTests.Domain;
