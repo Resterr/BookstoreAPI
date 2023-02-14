@@ -18,6 +18,7 @@ internal sealed class PostgresOrderRepository : IOrderRepository
 		return _dbContext.Orders
 			.Include(x => x.Books)
 			.ThenInclude(x => x.Book)
+			.Include(x => x.CreatedBy)
 			.SingleOrDefaultAsync(x => x.Id == id);
 	}
 

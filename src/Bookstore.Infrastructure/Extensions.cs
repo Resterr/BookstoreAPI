@@ -1,5 +1,6 @@
 ﻿using Bookstore.Infrastructure.Auth;
 using Bookstore.Infrastructure.EF;
+using Bookstore.Infrastructure.Email;
 using Bookstore.Infrastructure.Exceptions;
 using Bookstore.Infrastructure.Logging;
 using Bookstore.Infrastructure.Security;
@@ -23,8 +24,9 @@ public static class Extensions
 		services.AddQueries();
 		services.AddSecurity();
 		services.AddAuth(configuration);
+        services.AddEmailing(configuration);
 
-		services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
+        services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
 
 		return services;
 	}
