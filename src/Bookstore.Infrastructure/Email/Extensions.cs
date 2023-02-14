@@ -5,7 +5,6 @@ using System.Net.Mail;
 using System.Net;
 using RazorLight.Extensions;
 using RazorLight;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Bookstore.Infrastructure.Email;
 internal static class Extensions

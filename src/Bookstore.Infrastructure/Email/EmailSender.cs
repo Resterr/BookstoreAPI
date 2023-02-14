@@ -2,9 +2,7 @@
 using Bookstore.Application.Services;
 using FluentEmail.Core;
 using IronPdf;
-using Microsoft.AspNetCore.Components.RenderTree;
 using RazorLight;
-using System.Diagnostics;
 
 namespace Bookstore.Infrastructure.Email;
 public class EmailSender : IEmailSender
@@ -22,7 +20,7 @@ public class EmailSender : IEmailSender
     { 
         var path = $"{Directory.GetCurrentDirectory()}\\wwwroot\\templates\\InvoiceTemplate.cshtml";
         var html = await _razorLightEngine.CompileRenderAsync(path, invoiceData);
-        var renderer = new IronPdf.ChromePdfRenderer();
+        var renderer = new ChromePdfRenderer();
         using var PDF = await renderer.RenderHtmlAsPdfAsync(html);  
         using var PDFStream = PDF.Stream;
 
