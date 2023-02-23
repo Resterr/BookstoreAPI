@@ -1,5 +1,5 @@
 # About project
-Bookstore is a e-commerce application. With authentication and authorization capabilities, users can securely add and edit books, authors, and publishers. The platform also enables users to easily search and place orders for their desired items.
+Bookstore is an e-commerce backend application. With authentication and authorization capabilities, users with permissions can securely add and edit books, authors, and publishers. The application also enables users to easily search and place orders for their desired items. Additionally, administrators can generate invoices for users and send them by email. To develop this application, I am using clean architecture with CQRS.
 # Used Design Pattern:
 <ul>
 	<li>Clean architecture</li>
